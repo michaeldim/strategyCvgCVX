@@ -14,13 +14,17 @@ contract StkCVGCVXStrategy is BaseStrategy {
     using SafeERC20 for ERC20;
 
     // --- Strategy state ---
-    ICvgCvxStaking public constant STAKING = ICvgCvxStaking(0x2c1D293c50C6d1a4370ebb442A02c5956bbAb119);
+    ICvgCvxStaking public constant STAKING =
+        ICvgCvxStaking(0x2c1D293c50C6d1a4370ebb442A02c5956bbAb119);
 
     // -----------------------------------------------------------------------
     // Constructor
     // -----------------------------------------------------------------------
 
-    constructor(address _asset, string memory _name) BaseStrategy(_asset, _name) {
+    constructor(
+        address _asset,
+        string memory _name
+    ) BaseStrategy(_asset, _name) {
         asset.forceApprove(address(STAKING), type(uint256).max);
     }
 
@@ -32,7 +36,9 @@ contract StkCVGCVXStrategy is BaseStrategy {
      * @notice Returns the maximum amount that can be deposited
      * @return The maximum deposit amount, 0 if deposits are paused
      */
-    function availableDepositLimit(address) public view override returns (uint256) {
+    function availableDepositLimit(
+        address
+    ) public view override returns (uint256) {
         return STAKING.depositPaused() ? 0 : type(uint256).max;
     }
 
@@ -45,7 +51,13 @@ contract StkCVGCVXStrategy is BaseStrategy {
      * @param _amount Amount of cvgCVX to stake
      */
     function _deployFunds(uint256 _amount) internal override {
-        STAKING.deposit(_amount, ICvgCvxStaking.IN_TOKEN_TYPE.cvgCVX, 0, 0, false);
+        STAKING.deposit(
+            _amount,
+            ICvgCvxStaking.IN_TOKEN_TYPE.cvgCVX,
+            0,
+            0,
+            false
+        );
     }
 
     /**
@@ -60,7 +72,12 @@ contract StkCVGCVXStrategy is BaseStrategy {
      * @dev Core harvest function. Claims cvgCVX rewards and immediately restakes them
      * @return _totalAssets Total assets under management after harvest
      */
-    function _harvestAndReport() internal virtual override returns (uint256 _totalAssets) {
+    function _harvestAndReport()
+        internal
+        virtual
+        override
+        returns (uint256 _totalAssets)
+    {
         STAKING.claimCvgCvxRewards(address(this), 0, false);
 
         uint256 idleBalance = asset.balanceOf(address(this));

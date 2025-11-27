@@ -29,8 +29,16 @@ interface ICvgCvxStaking {
     }
 
     // Events
-    event Deposit(address indexed user, uint256 indexed cycleId, uint256 amount);
-    event Withdraw(address indexed user, uint256 indexed cycleId, uint256 amount);
+    event Deposit(
+        address indexed user,
+        uint256 indexed cycleId,
+        uint256 amount
+    );
+    event Withdraw(
+        address indexed user,
+        uint256 indexed cycleId,
+        uint256 amount
+    );
 
     // Core functions
     function deposit(
@@ -41,12 +49,24 @@ interface ICvgCvxStaking {
         bool isLock
     ) external payable;
 
-    function withdraw(uint256 amount, OUT_TOKEN_TYPE tokenType, uint256 minCvx1AmountOut) external;
+    function withdraw(
+        uint256 amount,
+        OUT_TOKEN_TYPE tokenType,
+        uint256 minCvx1AmountOut
+    ) external;
 
     function claimCvgRewards(address account) external;
-    function claimCvgCvxRewards(address account, uint256 minCvgCvxAmountOut, bool isConvert) external;
-    function claimCvgCvxMultiple(address operator) external returns (uint256, TokenAmount[] memory);
-    function getAllClaimableAmounts(address account) external view returns (uint256, TokenAmount[] memory);
+    function claimCvgCvxRewards(
+        address account,
+        uint256 minCvgCvxAmountOut,
+        bool isConvert
+    ) external;
+    function claimCvgCvxMultiple(
+        address operator
+    ) external returns (uint256, TokenAmount[] memory);
+    function getAllClaimableAmounts(
+        address account
+    ) external view returns (uint256, TokenAmount[] memory);
 
     // State views
     function balanceOf(address account) external view returns (uint256);

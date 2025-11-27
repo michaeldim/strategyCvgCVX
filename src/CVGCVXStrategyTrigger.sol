@@ -8,7 +8,9 @@ import {ICvgCvxStaking} from "./interfaces/ICvgCvxStaking.sol";
  * @author Yearn.finance
  */
 abstract contract CustomStrategyTriggerBase {
-    function reportTrigger(address _strategy) external view virtual returns (bool, bytes memory);
+    function reportTrigger(
+        address _strategy
+    ) external view virtual returns (bool, bytes memory);
 }
 
 interface IStrategy {
@@ -36,7 +38,8 @@ interface ICommonReportTrigger {
  */
 contract CVGCVXStrategyTrigger is CustomStrategyTriggerBase {
     // CVG staking contract to check claimable rewards
-    ICvgCvxStaking public constant STAKING = ICvgCvxStaking(0x2c1D293c50C6d1a4370ebb442A02c5956bbAb119);
+    ICvgCvxStaking public constant STAKING =
+        ICvgCvxStaking(0x2c1D293c50C6d1a4370ebb442A02c5956bbAb119);
 
     // Yearn's CommonReportTrigger for base fee checks
     ICommonReportTrigger public constant COMMON_TRIGGER =
@@ -48,7 +51,9 @@ contract CVGCVXStrategyTrigger is CustomStrategyTriggerBase {
      * @return . True if strategy should report
      * @return . Encoded call data or reason for not reporting
      */
-    function reportTrigger(address _strategy) external view override returns (bool, bytes memory) {
+    function reportTrigger(
+        address _strategy
+    ) external view override returns (bool, bytes memory) {
         IStrategy strategy = IStrategy(_strategy);
 
         // Don't report if strategy is shutdown
@@ -79,7 +84,10 @@ contract CVGCVXStrategyTrigger is CustomStrategyTriggerBase {
         }
 
         // Check if there are claimable rewards
-        (uint256 cvgAmount, ICvgCvxStaking.TokenAmount[] memory cvxRewards) = STAKING.getAllClaimableAmounts(_strategy);
+        (
+            uint256 cvgAmount,
+            ICvgCvxStaking.TokenAmount[] memory cvxRewards
+        ) = STAKING.getAllClaimableAmounts(_strategy);
 
         // Check if cvgCVX rewards exist and are non-zero
         bool hasRewards = false;

@@ -21,11 +21,22 @@ contract CVGCVXStrategyFactory {
     /// @notice Track the deployments. asset => strategy
     mapping(address => address) public deployments;
 
-    constructor(address _management, address _performanceFeeRecipient, address _keeper, address _emergencyAdmin) {
+    constructor(
+        address _management,
+        address _performanceFeeRecipient,
+        address _keeper,
+        address _emergencyAdmin
+    ) {
         require(_management != address(0), "Management cannot be zero address");
-        require(_performanceFeeRecipient != address(0), "Fee recipient cannot be zero address");
+        require(
+            _performanceFeeRecipient != address(0),
+            "Fee recipient cannot be zero address"
+        );
         require(_keeper != address(0), "Keeper cannot be zero address");
-        require(_emergencyAdmin != address(0), "Emergency admin cannot be zero address");
+        require(
+            _emergencyAdmin != address(0),
+            "Emergency admin cannot be zero address"
+        );
 
         management = _management;
         performanceFeeRecipient = _performanceFeeRecipient;
@@ -33,16 +44,24 @@ contract CVGCVXStrategyFactory {
         emergencyAdmin = _emergencyAdmin;
     }
 
-    function newStrategy(address _asset, string memory _name) public returns (address) {
+    function newStrategy(
+        address _asset,
+        string memory _name
+    ) public returns (address) {
         // Ensure we don't already have a deployment for this asset
-        require(deployments[_asset] == address(0), "Strategy already exists for this asset");
+        require(
+            deployments[_asset] == address(0),
+            "Strategy already exists for this asset"
+        );
 
         // Update state variable first - record that we're creating a strategy for this asset
         // Set to a non-zero temporary address to prevent reentrancy
         deployments[_asset] = address(1);
 
         // Create the strategy
-        IStrategyInterface _newStrategy = IStrategyInterface(address(new StkCVGCVXStrategy(_asset, _name)));
+        IStrategyInterface _newStrategy = IStrategyInterface(
+            address(new StkCVGCVXStrategy(_asset, _name))
+        );
 
         // Get the address
         address strategyAddress = address(_newStrategy);
