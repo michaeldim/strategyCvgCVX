@@ -29,11 +29,12 @@ contract Setup is Test, IEvents {
     mapping(string => address) public tokenAddrs;
 
     // Addresses for different roles we will use repeatedly.
-    address public user = address(10);
-    address public keeper = address(4);
-    address public management = address(1);
-    address public performanceFeeRecipient = address(3);
-    address public emergencyAdmin = address(5);
+    // Note: addresses 1-10 are EVM precompiles, avoid using them
+    address public user = address(0xBEEF);
+    address public keeper = address(0xCAFE);
+    address public management = address(0xDEAD);
+    address public performanceFeeRecipient = address(0xFEED);
+    address public emergencyAdmin = address(0xBABE);
 
     // Address of the real deployed Factory
     address public factory;
