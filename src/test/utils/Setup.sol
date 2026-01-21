@@ -52,8 +52,8 @@ contract Setup is Test, IEvents {
     function setUp() public virtual {
         _setTokenAddrs();
 
-        // Set asset
-        asset = ERC20(tokenAddrs["DAI"]);
+        // Set asset - cvgCVX token for this strategy
+        asset = ERC20(tokenAddrs["cvgCVX"]);
 
         // Set decimals
         decimals = asset.decimals();
@@ -156,6 +156,7 @@ contract Setup is Test, IEvents {
     }
 
     function _setTokenAddrs() internal {
+        tokenAddrs["cvgCVX"] = 0x2191DF768ad71140F9F3E96c1e4407A4aA31d082;
         tokenAddrs["WBTC"] = 0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599;
         tokenAddrs["YFI"] = 0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e;
         tokenAddrs["WETH"] = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
