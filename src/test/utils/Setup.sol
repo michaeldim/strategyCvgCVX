@@ -27,7 +27,8 @@ contract Setup is Test, IEvents {
     CVGCVXStrategyFactory public strategyFactory;
 
     // Convergence staking contract
-    address public constant STAKING = 0x2c1D293c50C6d1a4370ebb442A02c5956bbAb119;
+    address public constant STAKING =
+        0x2c1D293c50C6d1a4370ebb442A02c5956bbAb119;
 
     mapping(string => address) public tokenAddrs;
 
@@ -86,7 +87,12 @@ contract Setup is Test, IEvents {
         // This prevents ALL_CVX_CLAIMED_FOR_NOW errors in fork tests
         vm.mockCall(
             STAKING,
-            abi.encodeWithSignature("claimCvgCvxRewards(address,uint256,bool)", address(strategy), 0, false),
+            abi.encodeWithSignature(
+                "claimCvgCvxRewards(address,uint256,bool)",
+                address(strategy),
+                0,
+                false
+            ),
             abi.encode()
         );
     }
