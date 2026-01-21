@@ -13,7 +13,15 @@ PERFORMANCE_FEE_RECIPIENT="0x7bdfE11c4981Dd4c33E1aa62457B8773253791b3"
 EMERGENCY_ADMIN="0x7bdfE11c4981Dd4c33E1aa62457B8773253791b3"
 STRATEGY_NAME="Staked cvgCVX Compounder"
 
-RPC_URL="https://eth-mainnet.g.alchemy.com/v2/SjBWiJLYGGG5xXWsLRP0oZhlD4AsDc3x"
+# RPC URL - uses ETH_RPC_URL env var, or gets from ethcli if available
+if [ -n "$ETH_RPC_URL" ]; then
+    RPC_URL="$ETH_RPC_URL"
+elif command -v ethcli &> /dev/null; then
+    RPC_URL=$(ethcli endpoints list 2>&1 | grep -oE "https://[^ ]+" | head -1)
+else
+    echo "ERROR: Set ETH_RPC_URL environment variable or install ethcli"
+    exit 1
+fi
 
 # FACTORY ADDRESS - SET THIS TO YOUR DEPLOYED FACTORY
 FACTORY_ADDRESS="${1:-}"
