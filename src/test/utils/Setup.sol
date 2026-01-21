@@ -5,7 +5,7 @@ import "forge-std/console2.sol";
 import {Test} from "forge-std/Test.sol";
 
 import {Strategy, ERC20} from "../../Strategy.sol";
-import {StrategyFactory} from "../../StrategyFactory.sol";
+import {CVGCVXStrategyFactory} from "../../CVGCVXStrategyFactory.sol";
 import {IStrategyInterface} from "../../interfaces/IStrategyInterface.sol";
 
 // Inherit the events so they can be checked if desired.
@@ -24,7 +24,7 @@ contract Setup is Test, IEvents {
     ERC20 public asset;
     IStrategyInterface public strategy;
 
-    StrategyFactory public strategyFactory;
+    CVGCVXStrategyFactory public strategyFactory;
 
     mapping(string => address) public tokenAddrs;
 
@@ -58,7 +58,7 @@ contract Setup is Test, IEvents {
         // Set decimals
         decimals = asset.decimals();
 
-        strategyFactory = new StrategyFactory(
+        strategyFactory = new CVGCVXStrategyFactory(
             management,
             performanceFeeRecipient,
             keeper,
