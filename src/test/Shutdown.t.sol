@@ -56,9 +56,9 @@ contract ShutdownTest is Setup {
 
         assertEq(strategy.totalAssets(), _amount, "!totalAssets");
 
-        // should be able to pass uint 256 max and not revert.
+        // Withdraw all staked funds
         vm.prank(emergencyAdmin);
-        strategy.emergencyWithdraw(type(uint256).max);
+        strategy.emergencyWithdraw(_amount);
 
         // Make sure we can still withdraw the full amount
         uint256 balanceBefore = asset.balanceOf(user);

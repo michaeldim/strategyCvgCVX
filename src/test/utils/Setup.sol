@@ -26,6 +26,9 @@ contract Setup is Test, IEvents {
 
     CVGCVXStrategyFactory public strategyFactory;
 
+    // Convergence staking contract
+    address public constant STAKING = 0x2c1D293c50C6d1a4370ebb442A02c5956bbAb119;
+
     mapping(string => address) public tokenAddrs;
 
     // Addresses for different roles we will use repeatedly.
@@ -78,6 +81,14 @@ contract Setup is Test, IEvents {
         vm.label(management, "management");
         vm.label(address(strategy), "strategy");
         vm.label(performanceFeeRecipient, "performanceFeeRecipient");
+
+        // Mock claimCvgCvxRewards to not revert when no rewards available
+        // This prevents ALL_CVX_CLAIMED_FOR_NOW errors in fork tests
+        vm.mockCall(
+            STAKING,
+            abi.encodeWithSignature("claimCvgCvxRewards(address,uint256,bool)", address(strategy), 0, false),
+            abi.encode()
+        );
     }
 
     function setUpStrategy() public returns (address) {
